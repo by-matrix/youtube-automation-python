@@ -1,0 +1,18 @@
+# Render configuration for YouTube Automation Service
+services:
+  - type: web
+    name: youtube-automation
+    env: python
+    buildCommand: |
+      # Install system dependencies
+      apt-get update && apt-get install -y ffmpeg
+      # Install Python dependencies
+      pip install -r youtube_requirements.txt
+    startCommand: uvicorn youtube_automation_main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    autoDeploy: false
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11"
